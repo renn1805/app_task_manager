@@ -20,12 +20,14 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.RoundRect
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.unit.dp
-import com.app.taskmanager.ui.theme.Purple40
-import com.app.taskmanager.ui.theme.Purple80
-import com.app.taskmanager.ui.theme.frontSideCardColor
-import com.app.taskmanager.ui.theme.primaryPurple
+import com.app.taskmanager.ui.theme.Purple1
+import com.app.taskmanager.ui.theme.Purple2
+import com.app.taskmanager.ui.theme.Purple3
+import com.app.taskmanager.ui.theme.Purple4
+import com.app.taskmanager.ui.theme.Purple5
 
 @Composable
 fun LoginLayout(
@@ -37,7 +39,7 @@ fun LoginLayout(
     Box(
         Modifier
             .fillMaxSize()
-            .background(color = primaryPurple),
+            .background(color = Purple1),
         contentAlignment = Alignment.BottomCenter
     ) {
 
@@ -50,22 +52,22 @@ fun LoginLayout(
         LoginLayer(
             duration = 1200,
             targetValue = if (startAnimation) 0.9f else 0f,
-            backgroundColor = Purple80
+            backgroundColor = Purple2
         )
         LoginLayer(
             duration = 1200,
-            targetValue = if (startAnimation) 0.83f else 0f,
-            backgroundColor = Purple80
+            targetValue = if (startAnimation) 0.86f else 0f,
+            backgroundColor = Purple3
         )
         LoginLayer(
             duration = 1500,
-            targetValue = if (startAnimation) 0.86f else 0f,
-            backgroundColor = frontSideCardColor,
+            targetValue = if (startAnimation) 0.82f else 0f,
+            backgroundColor = Purple4,
             content = loginContent
         )
         LoginLayer(
-            targetValue = if (mode == LoginMode.REGISTRATION) 0.86f else 0f,
-            backgroundColor = Purple40,
+            targetValue = if (mode == LoginMode.REGISTRATION) 0.82f else 0f,
+            backgroundColor = Purple5,
             content = registerContent
         )
     }

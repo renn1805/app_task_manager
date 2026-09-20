@@ -31,13 +31,17 @@ fun LoginScreen(
 
     val context = LocalContext.current
 
-    LaunchedEffect(globalState.message) {
-        globalState.message?.let { message ->
-            Toast.makeText(
-                context,
-                message,
-                Toast.LENGTH_SHORT
-            ).show()
+    LaunchedEffect(Unit) {
+        visualizer.events.collect { event ->
+            when (event) {
+                is UiEvent.ShowMessage -> {
+                    Toast.makeText(
+                        context,
+                        event.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
         }
     }
 
@@ -66,7 +70,8 @@ fun LoginScreen(
                     },
                     emailState = emailFieldState,
                     passwordState = passwordFieldState,
-                    onChangeToRegistration = {visualizer.changeMode(LoginMode.REGISTRATION)}
+                    onChangeToRegistration = {visualizer.changeMode(LoginMode.REGISTRATION)},
+                    isError = globalState.isError
                 )
             }
         },
@@ -78,7 +83,8 @@ fun LoginScreen(
                     nameState = nameFieldState,
                     emailState = emailFieldState,
                     passwordState = passwordFieldState,
-                    confirmPasswordState = confirmPasswordFieldState
+                    confirmPasswordState = confirmPasswordFieldState,
+                    isError = globalState.isError
                 )
             }
         }

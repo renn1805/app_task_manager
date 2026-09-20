@@ -28,8 +28,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.app.taskmanager.ui.theme.Typography
 import com.app.taskmanager.R
-import com.app.taskmanager.ui.theme.primaryLightPurple
-import com.app.taskmanager.ui.theme.primaryPurple
+import com.app.taskmanager.ui.theme.Purple1
+import com.app.taskmanager.ui.theme.Purple2
+import com.app.taskmanager.ui.theme.Purple3
 
 @Composable
 fun LoginLayerContent(
@@ -37,6 +38,7 @@ fun LoginLayerContent(
     onChangeToRegistration: () -> Unit,
     emailState: TextFieldState,
     passwordState: TextFieldState,
+    isError: Boolean
 ) {
     var showPassword by remember { mutableStateOf(false) }
 
@@ -52,7 +54,8 @@ fun LoginLayerContent(
 
         LoginTextField(
             textFieldState = emailState,
-            placeholder = "E-mail"
+            placeholder = "E-mail",
+            isError = isError
         )
 
         Row(
@@ -67,7 +70,8 @@ fun LoginLayerContent(
                         replace(0, length, "* ".repeat(length))
                     }
                 },
-                widthFraction = 0.8f
+                widthFraction = 0.8f,
+                isError = isError
             )
 
             IconButton(
@@ -100,9 +104,9 @@ fun LoginLayerContent(
             shape = shapes.medium,
             colors = ButtonColors(
                 containerColor = Color.White,
-                contentColor = primaryPurple,
+                contentColor = Purple3,
                 disabledContainerColor = Color.Transparent,
-                disabledContentColor = primaryLightPurple
+                disabledContentColor = Purple2
             )
         ) {
             Text("ENTRAR")

@@ -28,7 +28,8 @@ fun LoginTextField (
     textFieldState: TextFieldState,
     placeholder: String,
     outputTransformation: OutputTransformation? = null,
-    widthFraction: Float = 1f
+    widthFraction: Float = 1f,
+    isError: Boolean = false
 ) {
     BasicTextField(
         state = textFieldState,
@@ -53,7 +54,11 @@ fun LoginTextField (
                 modifier = Modifier
                     .fillMaxSize()
                     .background(color = Color.Transparent, shape = shapes.medium)
-                    .border(width = 1.dp, color = Color.White, shape = shapes.medium)
+                    .border(
+                        width = 1.dp,
+                        color = if (isError) Color.Red else Color.White,
+                        shape = shapes.medium
+                    )
                     .padding(horizontal = 20.dp, vertical = 10.dp),
                 contentAlignment = Alignment.CenterStart,
 
