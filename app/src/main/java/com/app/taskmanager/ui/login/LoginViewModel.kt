@@ -16,33 +16,47 @@ class LoginViewModel: ViewModel() {
 
     data class UiState (
         val isLoading: Boolean = false,
-        val emailFieldState: TextFieldState = TextFieldState(),
-        val passwordFieldState: TextFieldState = TextFieldState(),
-        val cardRotated: Boolean = false,
-        val user: User? = null
+        val user: User? = null,
+        val message: String? = null,
+        val isError: Boolean = false,
+        val loginMode: LoginMode = LoginMode.LOGIN
     )
 
     private val _uiState = MutableStateFlow(UiState())
     val uiState: StateFlow<UiState> = _uiState
 
-    fun rotate () {
-        _uiState.update { it.copy( cardRotated = !it.cardRotated) }
-    }
 
-    fun login () {
+    fun login (
+        email: String,
+        password: String
+    ) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
 
             val response = userService.login(
-                email = _uiState.value.emailFieldState.text.toString(),
-                password =  _uiState.value.passwordFieldState.text.toString()
+                email = email,
+                password =  password
             )
 
-            _uiState.update { it.copy(
-                isLoading = false,
-                user = response?.user
-            ) }
+            if (response?.user != null) {
+                _uiState.update { it.copy(
+                    isLoading = false,
+                    message = "Login feito com sucesso",
+                    user = response.user
+                ) }
+            } else {
+                _uiState.update { it.copy(
+                    isLoading = false,
+                    message = "Erro ao efetuar o Login",
+                    isError = true
+                ) }
+            }
+
         }
+    }
+
+    fun changeMode (mode: LoginMode) {
+        this._uiState.update { it.copy(loginMode = mode) }
     }
 
 }

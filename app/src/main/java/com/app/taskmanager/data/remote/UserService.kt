@@ -8,10 +8,12 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.contentType
 import io.ktor.http.ContentType
+import io.ktor.utils.io.InternalAPI
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Serializer
 
 class UserService {
-
     @Serializable
     data class LoginRequest (
         val email: String,
@@ -21,8 +23,10 @@ class UserService {
     data class LoginResponse (
         val user: User
     )
+
     suspend fun login(email: String, password: String): LoginResponse? {
         try {
+
             val response = ApiClient.client.post("${ApiClient.BASE_URL}/users/login") {
                 contentType(ContentType.Application.Json)
                 setBody(
