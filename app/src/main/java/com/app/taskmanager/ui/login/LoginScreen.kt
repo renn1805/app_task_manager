@@ -91,7 +91,12 @@ fun LoginScreen(
             if (!globalState.isLoading) {
                 AnimatedVisibility(globalState.loginMode == LoginMode.REGISTRATION) {
                     RegistrationLayerContent(
-                        onRegister = {},
+                        onRegister = { visualizer.register(
+                            name = nameFieldState.text.toString(),
+                            email = emailFieldState.text.toString(),
+                            password = passwordFieldState.text.toString(),
+                            confirmPassword = confirmPasswordFieldState.text.toString()
+                        ) },
                         onChangeToLogin = { visualizer.changeMode(LoginMode.LOGIN) },
                         nameState = nameFieldState,
                         emailState = emailFieldState,
