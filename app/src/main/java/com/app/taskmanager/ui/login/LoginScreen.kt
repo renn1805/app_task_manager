@@ -65,11 +65,10 @@ fun LoginScreen(
                 AnimatedVisibility(globalState.loginMode == LoginMode.LOGIN) {
                     LoginLayerContent(
                         onLogin = {
-                            onLoginSuccess()
-//                            visualizer.login(
-//                                email = emailFieldState.text.toString(),
-//                                password = passwordFieldState.text.toString()
-//                            )
+                            visualizer.login(
+                                email = emailFieldState.text.toString(),
+                                password = passwordFieldState.text.toString()
+                            )
                         },
                         emailState = emailFieldState,
                         passwordState = passwordFieldState,

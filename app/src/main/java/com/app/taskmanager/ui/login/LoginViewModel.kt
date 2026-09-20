@@ -3,6 +3,7 @@ package com.app.taskmanager.ui.login
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.app.taskmanager.data.remote.ApiResult
 import com.app.taskmanager.data.remote.UserService
 import com.app.taskmanager.model.User
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -47,34 +48,39 @@ class LoginViewModel: ViewModel() {
                     UiEvent.ShowMessage("Email e senha devem estar preenchidos")
                 )
 
-                return@launch Unit;
+                return@launch
             }
 
-            val response = userService.login(
+            when (
+                val response = userService.login(
                 email = email,
-                password =  password
-            )
-
-            if (response?.user != null) {
-                _uiState.update { it.copy(
-                    isLoading = false,
-                    user = response.user
-                ) }
-
-                _events.emit(
-                    UiEvent.ShowMessage("Login feito com sucesso")
+                password = password
                 )
-            } else {
-                _uiState.update { it.copy(
-                    isLoading = false,
-                    isError = true
-                ) }
+            ) {
+                is ApiResult.Success -> {
+                    _uiState.update { it.copy(
+                        user = response.data.user,
+                        isLoading = false
+                    ) }
 
-                _events.emit(
-                    UiEvent.ShowMessage("Erro ao efetuar o Login")
-                )
+                    _events.emit(
+                        UiEvent.ShowMessage("Login efetuado com sucesso!")
+                    )
+                }
+
+                is ApiResult.Error -> {
+                    _uiState.update { it.copy(
+                        isLoading = false,
+                        isError = true
+                    ) }
+
+                    _events.emit(
+                        UiEvent.ShowMessage(
+                            response.error?.message ?: "Error ao efetuar login"
+                        )
+                    )
+                }
             }
-
         }
     }
 
