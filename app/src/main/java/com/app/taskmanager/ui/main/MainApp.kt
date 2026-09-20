@@ -17,6 +17,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.app.taskmanager.R
 import com.app.taskmanager.ui.login.LoginScreen
+import com.app.taskmanager.ui.theme.TaskManagerTheme
+import com.app.taskmanager.ui.theme.taskManagerNavigationItemColors
+import com.app.taskmanager.ui.theme.taskManagerNavigationSuiteColors
 
 @PreviewScreenSizes
 @Composable
@@ -25,6 +28,9 @@ fun MainApp() {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
+
+    val navigationItemColors = taskManagerNavigationItemColors()
+    val navigationSuiteColors = taskManagerNavigationSuiteColors()
 
     NavigationSuiteScaffold(
         navigationSuiteItems = {
@@ -38,10 +44,12 @@ fun MainApp() {
                     },
                     label = { Text(destination.label) },
                     selected = currentRoute == destination.route,
-                    onClick = { navController.navigate(destination.route) }
+                    onClick = { navController.navigate(destination.route) },
+                    colors = navigationItemColors,
                 )
             }
-        }
+        },
+        navigationSuiteColors =  navigationSuiteColors
     ) {
         NavHost(
             modifier = Modifier.padding(20.dp),

@@ -13,11 +13,12 @@ val Purple40 = Color(0xFF7E59E3)
 val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
-val primaryLightBlue = Color(0xFFC6DCFF)
-val primaryBlue = Color(0xFF9CC2FF)
 
-val primaryLightPurple = Color(0xFFD9C6FF)
-val primaryPurple = Color(0xFFB89CFF)
+val Purple1 = Color(0xFF8E8DDF)
+val Purple2 = Color(0xFF7475D0)
+val Purple3 = Color(0xFF5D60C1)
+val Purple4 = Color(0xFF4B4EAF)
+val Purple5 = Color(0xFF3D4099)
 
 val backSideCardColor = Color(0xFF79ABFC)
 val frontSideCardColor = Color(0xFF9871FF)
@@ -25,9 +26,3 @@ val frontSideCardColor = Color(0xFF9871FF)
 val transparentGray = Color(0x36FFFFFF)
 val mediumBlue = Color(0xFF3686FF)
 
-val loginButtonColor = ButtonColors(
-    containerColor = mediumBlue,
-    contentColor = Color.White,
-    disabledContainerColor = primaryLightBlue,
-    disabledContentColor = transparentGray
-)
