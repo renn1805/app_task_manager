@@ -9,12 +9,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -56,36 +58,58 @@ fun LoginScreen(
     val nameFieldState = TextFieldState()
     val confirmPasswordFieldState = TextFieldState()
 
-
     LoginLayout(
         mode = globalState.loginMode,
         loginContent = {
-            AnimatedVisibility(globalState.loginMode == LoginMode.LOGIN){
-                LoginLayerContent(
-                    onLogin = {
-                        visualizer.login(
-                            email = emailFieldState.text.toString(),
-                            password = passwordFieldState.text.toString()
-                        )
-                    },
-                    emailState = emailFieldState,
-                    passwordState = passwordFieldState,
-                    onChangeToRegistration = {visualizer.changeMode(LoginMode.REGISTRATION)},
-                    isError = globalState.isError
-                )
+            if (!globalState.isLoading) {
+                AnimatedVisibility(globalState.loginMode == LoginMode.LOGIN) {
+                    LoginLayerContent(
+                        onLogin = {
+                            onLoginSuccess()
+//                            visualizer.login(
+//                                email = emailFieldState.text.toString(),
+//                                password = passwordFieldState.text.toString()
+//                            )
+                        },
+                        emailState = emailFieldState,
+                        passwordState = passwordFieldState,
+                        onChangeToRegistration = { visualizer.changeMode(LoginMode.REGISTRATION) },
+                        isError = globalState.isError
+                    )
+                }
+            } else {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator(
+                        color = Color.White
+                    )
+                }
             }
         },
         registerContent = {
-            AnimatedVisibility(globalState.loginMode == LoginMode.REGISTRATION) {
-                RegistrationLayerContent(
-                    onRegister = {},
-                    onChangeToLogin = { visualizer.changeMode(LoginMode.LOGIN) },
-                    nameState = nameFieldState,
-                    emailState = emailFieldState,
-                    passwordState = passwordFieldState,
-                    confirmPasswordState = confirmPasswordFieldState,
-                    isError = globalState.isError
-                )
+            if (!globalState.isLoading) {
+                AnimatedVisibility(globalState.loginMode == LoginMode.REGISTRATION) {
+                    RegistrationLayerContent(
+                        onRegister = {},
+                        onChangeToLogin = { visualizer.changeMode(LoginMode.LOGIN) },
+                        nameState = nameFieldState,
+                        emailState = emailFieldState,
+                        passwordState = passwordFieldState,
+                        confirmPasswordState = confirmPasswordFieldState,
+                        isError = globalState.isError
+                    )
+                }
+            } else {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator(
+                        color = Color.White
+                    )
+                }
             }
         }
     )
