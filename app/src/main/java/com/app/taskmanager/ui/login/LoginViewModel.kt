@@ -5,8 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.taskmanager.data.remote.UserService
 import com.app.taskmanager.model.User
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -14,10 +16,12 @@ class LoginViewModel: ViewModel() {
 
     val userService = UserService()
 
+    private val _events = MutableSharedFlow<UiEvent>()
+    val events = _events.asSharedFlow()
+
     data class UiState (
         val isLoading: Boolean = false,
         val user: User? = null,
-        val message: String? = null,
         val isError: Boolean = false,
         val loginMode: LoginMode = LoginMode.LOGIN
     )
@@ -33,6 +37,19 @@ class LoginViewModel: ViewModel() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
 
+            if (!isLoginValid(email, password)){
+                _uiState.update { it.copy(
+                    isLoading = false,
+                    isError = true
+                ) }
+
+                _events.emit(
+                    UiEvent.ShowMessage("Email e senha devem estar preenchidos")
+                )
+
+                return@launch Unit;
+            }
+
             val response = userService.login(
                 email = email,
                 password =  password
@@ -41,22 +58,36 @@ class LoginViewModel: ViewModel() {
             if (response?.user != null) {
                 _uiState.update { it.copy(
                     isLoading = false,
-                    message = "Login feito com sucesso",
                     user = response.user
                 ) }
+
+                _events.emit(
+                    UiEvent.ShowMessage("Login feito com sucesso")
+                )
             } else {
                 _uiState.update { it.copy(
                     isLoading = false,
-                    message = "Erro ao efetuar o Login",
                     isError = true
                 ) }
+
+                _events.emit(
+                    UiEvent.ShowMessage("Erro ao efetuar o Login")
+                )
             }
 
         }
     }
 
-    fun changeMode (mode: LoginMode) {
-        this._uiState.update { it.copy(loginMode = mode) }
+    private fun isLoginValid (email: String, password: String): Boolean {
+        return !(email.trim().isEmpty() || password.trim().isEmpty())
     }
 
+    fun changeMode (mode: LoginMode) {
+        this._uiState.update {
+            it.copy(
+                loginMode = mode,
+                isError = false
+            )
+        }
+    }
 }
