@@ -41,16 +41,16 @@ private val LightColorScheme = lightColorScheme(
 )
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Color(0xFF8E8DDF),
+    primary = Purple1,
     onPrimary = Color(0xFF282968),
 
-    secondary = Color(0xFF7475D0),
+    secondary = Purple2,
     onSecondary = Color(0xFF282968),
 
     tertiary = Color(0xFFA9A9EE),
     onTertiary = Color(0xFF30305F),
 
-    background = Color(0xFF121218),
+    background = Purple1,
     onBackground = Color(0xFFE6E1E9),
 
     surface = Color(0xFF1A191F),
@@ -82,12 +82,12 @@ fun taskManagerNavigationItemColors(): NavigationSuiteItemColors {
     return NavigationSuiteDefaults.itemColors(
         navigationBarItemColors = NavigationBarItemColors(
             selectedIconColor = Color.White,
-            selectedTextColor = Purple5,
+            selectedTextColor = Color.White,
             selectedIndicatorColor = Purple2,
-            unselectedIconColor = Purple4,
-            unselectedTextColor = Purple4,
-            disabledIconColor = Color.Gray,
-            disabledTextColor = Color.Gray
+            unselectedIconColor = Color.White,
+            unselectedTextColor = Color.White,
+            disabledIconColor = Color.White,
+            disabledTextColor = Color.White
         ),
         navigationRailItemColors = NavigationRailItemColors(
             selectedIconColor = Color.White,
@@ -104,16 +104,16 @@ fun taskManagerNavigationItemColors(): NavigationSuiteItemColors {
 @Composable
 fun taskManagerNavigationSuiteColors(): NavigationSuiteColors {
     return NavigationSuiteDefaults.colors(
-        shortNavigationBarContainerColor = Purple5,
+        shortNavigationBarContainerColor = Purple3,
         shortNavigationBarContentColor = Color.White,
 
-        navigationBarContainerColor = Purple5,
+        navigationBarContainerColor = Purple3,
         navigationBarContentColor = Color.White,
 
-        navigationRailContainerColor = Purple5,
+        navigationRailContainerColor = Purple3,
         navigationRailContentColor = Color.White,
 
-        navigationDrawerContainerColor = Purple5,
+        navigationDrawerContainerColor = Purple3,
         navigationDrawerContentColor = Color.White,
     )
 }
