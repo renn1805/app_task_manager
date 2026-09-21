@@ -16,21 +16,29 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.app.taskmanager.data.model.SessionManager
 import com.app.taskmanager.ui.login.LoginScreen
 import com.app.taskmanager.ui.main.MainApp
 import com.app.taskmanager.ui.theme.TaskManagerTheme
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        SessionManager.initialize(this)
+
         enableEdgeToEdge()
-        setContent {
-            TaskManagerTheme {
-                TaskManagerApp()
+        lifecycleScope.launch {
+            SessionManager.restoreSession()
+            setContent {
+                TaskManagerTheme {
+                    TaskManagerApp()
+                }
             }
         }
     }
@@ -44,7 +52,7 @@ fun TaskManagerApp() {
 
     NavHost(
         navController = navController,
-        startDestination = "login",
+        startDestination = if (SessionManager.user == null) "login" else "main",
     ) {
         composable(route = "login") {
             LoginScreen(

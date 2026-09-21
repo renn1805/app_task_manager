@@ -1,17 +1,21 @@
 package com.app.taskmanager.data.model
 
+import android.content.Context
 import com.app.taskmanager.data.session.SessionDataStore
 
-class SessionManager(
-    private val dataStore: SessionDataStore
-) {
+object SessionManager {
+
+    private lateinit var dataStore: SessionDataStore
 
     var user: User? = null
         private set
 
+    fun initialize(context: Context) {
+        dataStore = SessionDataStore(context.applicationContext)
+    }
+
     suspend fun login(user: User) {
         this.user = user
-
         dataStore.saveUser(user)
     }
 

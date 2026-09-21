@@ -23,6 +23,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.app.taskmanager.R
+import com.app.taskmanager.ui.home.HomeScreen
 import com.app.taskmanager.ui.login.LoginScreen
 import com.app.taskmanager.ui.theme.TaskManagerTheme
 import com.app.taskmanager.ui.theme.Typography
@@ -65,34 +66,15 @@ fun MainApp() {
             contentColor = MaterialTheme.colorScheme.onBackground
         ){
             NavHost(
-                modifier = Modifier.padding(horizontal = 20.dp, vertical = 30.dp),
+                modifier = Modifier.padding(horizontal = 20.dp, vertical = 40.dp),
                 navController = navController,
                 startDestination = AppDestinations.HOME.route,
             ){
                 composable (route = AppDestinations.HOME.route){
-                    Text(
-                        text = "HOME",
-                        modifier = Modifier.fillMaxWidth(),
-                        style = Typography.titleLarge,
-                        textAlign = TextAlign.Center
-                    )
+                    HomeScreen()
                 }
-                composable (route = AppDestinations.WORKSPACES.route){
-                    Text(
-                        text = "WORKSPACES",
-                        modifier = Modifier.fillMaxWidth(),
-                        style = Typography.titleLarge,
-                        textAlign = TextAlign.Center
-                    )
-                }
-                composable (route = AppDestinations.PROFILE.route){
-                    Text(
-                        text = "PROFILE",
-                        modifier = Modifier.fillMaxWidth(),
-                        style = Typography.titleLarge,
-                        textAlign = TextAlign.Center
-                    )
-                }
+                composable (route = AppDestinations.WORKSPACES.route){}
+                composable (route = AppDestinations.PROFILE.route){}
             }
         }
     }
