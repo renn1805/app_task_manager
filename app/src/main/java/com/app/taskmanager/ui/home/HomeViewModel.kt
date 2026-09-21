@@ -30,7 +30,7 @@ class HomeViewModel: ViewModel() {
                 it.copy(isLoading = true)
             }
 
-            when (val result = workspaceService.getWorkspaces(SessionManager.user!!.id)) {
+            when (val result = workspaceService.getWorkspaces(SessionManager.user.value!!.id)) {
                 is ApiResult.Success -> {
                     _workspacesState.update {
                         it.copy(

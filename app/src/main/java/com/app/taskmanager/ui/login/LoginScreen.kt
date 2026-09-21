@@ -26,12 +26,10 @@ import com.app.taskmanager.data.model.SessionManager
 
 @Composable
 fun LoginScreen(
-    onLoginSuccess: () -> Unit,
     visualizer: LoginViewModel = viewModel(),
 ) {
 
     val globalState by visualizer.uiState.collectAsState()
-
     val context = LocalContext.current
 
     LaunchedEffect(Unit) {
@@ -45,12 +43,6 @@ fun LoginScreen(
                     ).show()
                 }
             }
-        }
-    }
-
-    LaunchedEffect(SessionManager.user) {
-        SessionManager.user?.let {
-            onLoginSuccess()
         }
     }
 
