@@ -2,7 +2,7 @@ package com.app.taskmanager.data.remote
 
 
 import android.util.Log
-import com.app.taskmanager.model.User
+import com.app.taskmanager.data.model.User
 import io.ktor.client.call.body
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
@@ -10,10 +10,7 @@ import io.ktor.client.statement.bodyAsText
 import io.ktor.http.contentType
 import io.ktor.http.ContentType
 import io.ktor.http.isSuccess
-import io.ktor.utils.io.InternalAPI
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.Serializer
 
 class UserService {
     @Serializable

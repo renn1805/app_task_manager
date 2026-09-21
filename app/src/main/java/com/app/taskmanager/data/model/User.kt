@@ -1,4 +1,4 @@
-package com.app.taskmanager.model
+package com.app.taskmanager.data.model
 
 import kotlinx.serialization.Serializable
 

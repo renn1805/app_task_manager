@@ -1,11 +1,11 @@
 package com.app.taskmanager.ui.login
 
-import androidx.compose.foundation.text.input.TextFieldState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.app.taskmanager.data.model.SessionManager
 import com.app.taskmanager.data.remote.ApiResult
 import com.app.taskmanager.data.remote.UserService
-import com.app.taskmanager.model.User
+import com.app.taskmanager.data.model.User
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,7 +22,6 @@ class LoginViewModel: ViewModel() {
 
     data class UiState (
         val isLoading: Boolean = false,
-        val user: User? = null,
         val isError: Boolean = false,
         val loginMode: LoginMode = LoginMode.LOGIN
     )
@@ -58,8 +57,8 @@ class LoginViewModel: ViewModel() {
                 )
             ) {
                 is ApiResult.Success -> {
+                    SessionManager.login(response.data.user)
                     _uiState.update { it.copy(
-                        user = response.data.user,
                         isLoading = false
                     ) }
 
@@ -127,9 +126,9 @@ class LoginViewModel: ViewModel() {
                 )
             ) {
                 is ApiResult.Success -> {
+                    SessionManager.login(response.data.user)
                     _uiState.update {
                         it.copy(
-                            user = response.data.user,
                             isLoading = false,
                             isError = false
                         )

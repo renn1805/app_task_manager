@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.app.taskmanager.data.model.SessionManager
 
 @Composable
 fun LoginScreen(
@@ -47,8 +48,8 @@ fun LoginScreen(
         }
     }
 
-    LaunchedEffect(globalState.user) {
-        globalState.user?.let {
+    LaunchedEffect(SessionManager.user) {
+        SessionManager.user?.let {
             onLoginSuccess()
         }
     }
