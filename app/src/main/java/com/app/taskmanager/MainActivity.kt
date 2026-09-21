@@ -9,6 +9,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -47,27 +48,11 @@ class MainActivity : ComponentActivity() {
 @PreviewScreenSizes
 @Composable
 fun TaskManagerApp() {
+    val user by SessionManager.user.collectAsState()
 
-    val navController = rememberNavController()
-
-    NavHost(
-        navController = navController,
-        startDestination = if (SessionManager.user == null) "login" else "main",
-    ) {
-        composable(route = "login") {
-            LoginScreen(
-                onLoginSuccess = {
-                    navController.navigate("main") {
-                        popUpTo("login") {
-                            inclusive = true
-                        }
-                    }
-                }
-            )
-        }
-        composable (route = "main") {
-            MainApp()
-        }
+    if (user == null) {
+        LoginScreen()
+    } else {
+        MainApp()
     }
-
 }

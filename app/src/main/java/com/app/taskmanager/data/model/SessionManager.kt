@@ -2,29 +2,31 @@ package com.app.taskmanager.data.model
 
 import android.content.Context
 import com.app.taskmanager.data.session.SessionDataStore
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 object SessionManager {
 
     private lateinit var dataStore: SessionDataStore
 
-    var user: User? = null
-        private set
+    private val _user = MutableStateFlow<User?>(null)
+    val user: StateFlow<User?> = _user
 
     fun initialize(context: Context) {
         dataStore = SessionDataStore(context.applicationContext)
     }
 
     suspend fun login(user: User) {
-        this.user = user
+        _user.value = user
         dataStore.saveUser(user)
     }
 
     suspend fun logout() {
-        user = null
+        _user.value = null
         dataStore.clearUser()
     }
 
     suspend fun restoreSession() {
-        user = dataStore.getUser()
+        _user.value = dataStore.getUser()
     }
 }
